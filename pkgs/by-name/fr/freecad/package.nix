@@ -141,7 +141,7 @@ freecad-utils.makeCustomizable (
       updateScript = nix-update-script {
         extraArgs = [
           "--version-regex"
-          "([0-9.]+)"
+          "weekly-([0-9.]+)"
         ];
       };
     };
