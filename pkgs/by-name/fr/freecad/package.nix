@@ -61,7 +61,7 @@ freecad-utils.makeCustomizable (
       owner = "FreeCAD";
       repo = "FreeCAD";
       tag = "weekly-${finalAttrs.version}";
-      hash = "sha256-xcnIZa3ypjZQXJoT7pgqw5S+HZuxKVnwBbhYFwdn2ks=";
+      hash = "sha256-E43sueE+uhNPXHf809eCg3HBaL4dIMQP/7kYUqkRukA=";
       fetchSubmodules = true;
     };
 
