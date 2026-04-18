@@ -55,13 +55,13 @@ in
 freecad-utils.makeCustomizable (
   stdenv.mkDerivation (finalAttrs: {
     pname = "freecad";
-    version = "2026.04.08";
+    version = "1.1.1";
 
     src = fetchFromGitHub {
       owner = "FreeCAD";
       repo = "FreeCAD";
-      tag = "weekly-${finalAttrs.version}";
-      hash = "sha256-E43sueE+uhNPXHf809eCg3HBaL4dIMQP/7kYUqkRukA=";
+      tag = finalAttrs.version;
+      hash = "sha256-7/VEbs8YDM1Xwc819ab6av5fgRSIbbB6LeCM0V08vRU=";
       fetchSubmodules = true;
     };
 
@@ -141,7 +141,7 @@ freecad-utils.makeCustomizable (
       updateScript = nix-update-script {
         extraArgs = [
           "--version-regex"
-          "weekly-([0-9.]+)"
+          "([0-9.]+)"
         ];
       };
     };
