@@ -20,18 +20,16 @@
 , ninja
 , cmake
 , gobject-introspection
-, gtk-doc
-, docbook_xsl
-, docbook_xml_dtd_43
 , gusb
 , libgudev
 , pixman
 , nss
+, openssl
 , glib
 , python3
 }:
 
-stdenv.mkDerivation {
+stdenv.mkDerivation (finalAttrs: {
   pname = "libfprint-goodix-521d";
   version = "unstable-2024-12-28";
 
@@ -39,7 +37,7 @@ stdenv.mkDerivation {
     url  = "https://github.com/infinytum/libfprint.git";
     rev  = "refs/heads/unstable";
     # To update, run:
-    #   nix-prefetch-git https://github.com/infinytum/libfprint --branch unstable
+    #   nix-prefetch-git https://github.com/infinytum/libfprint --rev <commit-sha>
     # and paste the resulting sha256 here.
     hash = "sha256-MFhPsTF0oLUMJ9BIRZnSHj9VRwtHJxvWv0WT5zz7vDY=";
   };
@@ -50,9 +48,6 @@ stdenv.mkDerivation {
     ninja
     cmake
     gobject-introspection
-    gtk-doc
-    docbook_xsl
-    docbook_xml_dtd_43
     python3
   ];
 
@@ -61,12 +56,19 @@ stdenv.mkDerivation {
     libgudev
     pixman
     nss
+    openssl
     glib
   ];
 
   mesonFlags = [
+    # doc and gtk-examples are plain booleans in this fork's meson_options.txt
     "-Ddoc=false"
-    "-Dudev_rules_dir=${placeholder "out"}/lib/udev/rules.d"
+    "-Dgtk-examples=false"
+    # udev_rules_dir and udev_hwdb_dir are plain strings; pass explicit paths
+    # so meson does not fall back to querying systemd via pkg-config, which
+    # would return systemd's read-only store path.
+    "-Dudev_rules_dir=${builtins.placeholder "out"}/lib/udev/rules.d"
+    "-Dudev_hwdb=disabled"
   ];
 
   postPatch = ''
@@ -104,4 +106,4 @@ stdenv.mkDerivation {
     platforms   = lib.platforms.linux;
     maintainers = [ lib.maintainers.your-handle ]; # replace with your handle
   };
-}
+})
